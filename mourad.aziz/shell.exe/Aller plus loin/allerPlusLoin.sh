@@ -39,14 +39,14 @@ wget --user=$ident --password=$pass https://alcasar..io/
 
 en commande http
 
-username=moura@laplateme.io
+username=mou@.io
 password=
 userurl=http://detectportal.firefox.com/canonical.html
 
-username=mourad.azi.io
+username=mad.azi.io
 password=
 
-username=mourad.a.io
+username=moad.a.io
 password=
 userurl=http://detectportal.firefox.com/canonical.html
 
