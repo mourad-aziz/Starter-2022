@@ -18,8 +18,8 @@ do
   echo "Rôle: $role"
   echo ""
   if [ $role != admin ]
-  then adduser nn:kk:mm
-  else adduser grproot
+  then #utilisateur normal adduser -u $username - :kk:mm
+  else #droit root moduser add group root
   fi
   
 done < <(tail -n +2 sample.csv)
@@ -27,4 +27,4 @@ done < <(tail -n +2 sample.csv)
 cat sample.csv > sample.csv.backup
  
 
-cron @minutly if [sample.csv != sample.csv.backup] sudo ./accessrights.sh 
+# cron @minutly if [sample.csv != sample.csv.backup] diff sample.csv sample.csv.backup | sudo ./accessrights.sh 
