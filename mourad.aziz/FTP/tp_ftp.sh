@@ -12,7 +12,7 @@ f_mainmenu
 f_proftpdconfig(){
 #useradd nobody group nogroup
 echo " "> /etc/proftpd/proftpd.conf
-#echo " 
+echo "
 ServerName			ProFTPD/n
 ServerType			standalone/n
 DefaultServer		on/n
@@ -27,6 +27,7 @@ DefaultRoot ~/n
 </Directory>/n
  " >> /etc/proftpd/proftpd.conf
 }
+
 f_proftpduninstall(){
 
 systemctl stop proftpd
@@ -92,26 +93,22 @@ f_enabletls() {
 # edit tls confg file echo ou fichier
 echo "
 <IfModule mod_tls.c>/n
-TLSEngine                               on/n
-TLSLog                                  /var/log/proftpd/tls.log/n
-TLSProtocol                             SSLv23/n
-TLSRSACertificateFile                   /etc/ssl/certs/proftpd.crt/n
-TLSRSACertificateKeyFile                /etc/ssl/private/proftpd.key/n
-TLSCACertificateFile 			 /etc/ssl/certs/CA.pem/n
-TLSRequired                             on/n
-TLSVerifyClient                         off/n
+TLSEngine                     on/n
+TLSLog                         /var/log/proftpd/tls.log/n
+TLSProtocol                    SSLv23/n
+TLSRSACertificateFile          /etc/ssl/certs/proftpd.crt/n
+TLSRSACertificateKeyFile       /etc/ssl/private/proftpd.key/n
+TLSCACertificateFile 		   /etc/ssl/certs/CA.pem/n
+TLSRequired                   on/n
+TLSVerifyClient               off/n
 " > etc/proftpd/tls.conf
-
 echo "Include /etc/proftpd/tls.conf" >> /etc/proftpd/proftpd.conf
-
 f_mainmenu
 }
 f_backup() {
 BACKUPFILE=backup_$(date +%d-%m-%Y_%H:%M)
-
 tar cvzf proftpdetc$BACKUPFILE.tar.gz /etc/proftpd/
 tar cvzf ftpsrv$BACKUPFILE.tar.gz /srv/ftp/
-
 scp jdoe@host1:proftpdetc$BACKUPFILE.tar.gz root@host2:/root/myfile2
 scp jdoe@host1:ftpsrv$BACKUPFILE.tar.gz root@host2:/root/myfile2
 f_mainmenu
@@ -119,8 +116,6 @@ f_mainmenu
 f_addvirtuser(){
 ftpasswd --passwd --file=/etc/proftpd/ftpd.passwd --name=merry --home=/srv/ftp/merry/
 ftpasswd --passwd --file=/etc/proftpd/ftpd.passwd --name=pippin --home=/srv/ftp/pippin/
-
-
 }
 
 f_mainmenu(){
