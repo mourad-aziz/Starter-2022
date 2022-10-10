@@ -21,7 +21,7 @@ Umask				022/n
 MaxInstances		30/n
 User				nobody/n
 Group				nogroup/n
-#DefaultRoot ~
+DefaultRoot ~/n
 <Directory />/n
   AllowOverwrite	on/n
 </Directory>/n
@@ -64,48 +64,45 @@ do
   if [ $role != admin ]
   then ftpasswd --passwd --file=/etc/proftpd/ftpd.passwd --name=$firstname --uid=$id --gid=$id / --home=/srv/ftp/$firstname/ --shell=/bin/false
   else #then ftpasswd --passwd --file=/etc/proftpd/ftpd.passwd --name=$firstname --uid=$id --gid=$id / --home=/srv/ftp/$firstname/ --shell=/bin/bash
-  ftpasswd --group --name=nogroup --file=/etc/proftpd/ftpd.group --gid=0
---member $firstname
+  ftpasswd --group --name=nogroup --file=/etc/proftpd/ftpd.group --gid=0 --member $firstname
   fi
-  
 done < <(tail -n +2 userlist.csv)
 f_mainmenu
 }
 f_enableanonyme() {
+f_proftpdconfig
+echo "
+<Anonymous ~ftp>/n
+User				ftp/n
+Group				ftp/n
 
-# <Anonymous ~ftp>
-# User				ftp
-# Group				ftp
+UserAlias			anonymous ftp/n
 
-# UserAlias			anonymous ftp
+MaxClients			10/n
+DisplayLogin			welcome.msg/n
+DisplayFirstChdir		.message/n
 
-# MaxClients			10
-# DisplayLogin			welcome.msg
-# DisplayFirstChdir		.message
-
-# <Limit WRITE>
-    # DenyAll
-   # </Limit>
-# </Anonymous>
+<Limit WRITE>/n
+DenyAll/n
+ </Limit>/n
+</Anonymous>/n
+" >> /etc/proftpd/proftpd.conf
 }
 f_enabletls() {
 # edit tls confg file echo ou fichier
+echo "
+<IfModule mod_tls.c>/n
+TLSEngine                               on/n
+TLSLog                                  /var/log/proftpd/tls.log/n
+TLSProtocol                             SSLv23/n
+TLSRSACertificateFile                   /etc/ssl/certs/proftpd.crt/n
+TLSRSACertificateKeyFile                /etc/ssl/private/proftpd.key/n
+TLSCACertificateFile 			 /etc/ssl/certs/CA.pem/n
+TLSRequired                             on/n
+TLSVerifyClient                         off/n
+" > etc/proftpd/tls.conf
 
-<IfModule mod_tls.c>
-TLSEngine                               on
-TLSLog                                  /var/log/proftpd/tls.log
-TLSProtocol                             SSLv23
-TLSRSACertificateFile                   /etc/ssl/certs/proftpd.crt
-TLSRSACertificateKeyFile                /etc/ssl/private/proftpd.key
-
-TLSCACertificateFile 			 /etc/ssl/certs/CA.pem
-TLSRequired                             on
-TLSVerifyClient                         off
-
-  # /etc/proftpd/proftpd.conf
-
-
-Include /etc/proftpd/tls.conf
+echo "Include /etc/proftpd/tls.conf" >> /etc/proftpd/proftpd.conf
 
 f_mainmenu
 }
