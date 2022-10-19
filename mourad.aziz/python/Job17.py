@@ -18,6 +18,6 @@ def evennumbers(list, n=0):
 #list1 = [10, 21, 4, 45, 66, 93, 100]
 
 print("Nombre paire dans la liste:", end=" ")
-list2 = [2, 99, 34, 45, 66, 93, 100990]
+list2 = [0, -2, 99, 34, 45, 66, 93, 100990]
 evennumbers(list2)
 #evennumbers(list1)
