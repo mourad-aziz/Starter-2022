@@ -108,7 +108,9 @@ while '_' in affichage and nb_erreurs < vie:
         
     if lettre not in R:
         nb_erreurs += 1
-            
-    affichage = underscore( mot_a_deviner , lettres_deja_proposees )
-    print( '\nMot à deviner : ' , affichage , ' '*10 , 'Nombre d\'erreurs restantes :' , vie-nb_erreurs )
+    #if niveau != 3:        
+        affichage = underscore( mot_a_deviner , lettres_deja_proposees )
+    #else:
+        #affichage = underscore( mot_a_deviner )
+    print( '\nMot à deviner : ' , affichage , ' '*15 , 'Nombre d\'erreurs restantes :' , vie-nb_erreurs )
 
